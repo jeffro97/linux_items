@@ -1,0 +1,58 @@
+#! /bin/bash
+#THIS SCRIPT HAS LINUX SPECIFIC COMMANDS. PLEASE RUN UNDER LINUX.
+#MADE ON RH9.
+#This is a script to tell the total size of the given file 
+#or directory. Plus the info on the file or directory, including
+#permissions, and the current user logged in who 
+#has these permissions.
+#Script written by Jeff Avveduti under GNU licence
+#7-20-03
+#/home/avveduti/scripts
+clear
+echo "Please enter the full path to the file/directory to query:"
+read FILE
+SIZE=$(du -hsD "$FILE");
+WHO=$(whoami);
+#Checking to see if $FILE is readable.
+if [ -r "$FILE" ]; then 
+	RD=YES
+else
+	RD=NO
+fi #If readable the RD is yes, otherwise it is assigned no.
+#Checking to see if $FILE is writable.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if [ -w "$FILE" ]; then
+	WT=YES	
+else
+	WT=NO
+fi
+#If writable WT gets YES, if not then NO.
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#Checking to see if $FILE is excutable.
+if [ -x "$FILE" ]; then
+	EX=YES
+else
+	EX=NO
+fi   #if excutable EX is YES else it is NO.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#Checking to see if $FILE is a directory, if yes then give stats.
+if [ -d "$FILE" ]; then
+	echo "Current User is $WHO."
+	echo "$FILE is a directory"
+	echo "Total size of $FILE is... $SIZE."
+	echo "Permissions are:"
+	echo "Read  = $RD"
+	echo "Write = $WT"
+	echo "Execute = $EX"   
+elif [ -f "$FILE" ]; then #if not a directory then must be a file.
+	echo "Current User is $WHO."
+	echo "$FILE is a file"
+	echo "Total size of $FILE is... $SIZE."
+	echo "Permissions are:"
+	echo "Read  = $RD"
+	echo "Write = $WT"
+	echo "Execute = $EX"
+else   #if not a file or directory then output error. 
+	echo "Error: Cannot find specified file or directory."
+	echo "Usage: A full valid file/directory name is required."
+fi

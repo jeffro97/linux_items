@@ -1,0 +1,26 @@
+#! /bin/bash
+clear
+date
+echo "Please enter a file to test."
+echo "Remember to enter the full absolute path to file." 
+read MYFILE #reading in the response and assigning the value MYFILE
+echo "Current name of script is $0"  #The name of this script. Just using the varable.
+echo "Testing file..."		#Starting test....
+if [ -d "$MYFILE" ]; then	# -d is directory, is the file a directory
+	echo "$MYFILE is a directory!"
+elif [ -f "$MYFILE" ]; then	#else if.... -f is it a file?
+	echo "$MYFILE is a normal file."
+	if [ -w "$MYFILE" ]; then	#-w is it writable
+		echo "This file is writable too."
+	else
+		echo "This file is not writable."
+	fi
+	if [ -r "$MYFILE" ]; then #-r is it readable?
+		echo "This file is readable too."
+	else 
+		echo "This file is not readable."
+	fi
+else 				#if every other test fails then std error mesg.
+	echo "Unable to find or read file."
+fi
+

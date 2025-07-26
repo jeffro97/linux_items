@@ -1,0 +1,39 @@
+#! /bin/bash
+clear			  #Keeping it nice and clean
+#Decloration section==================
+NM="christ_bkup"
+dirs="/mnt/data/Christ"
+WHO=$(whoami)
+fldr="/mnt/data/backups/$NM"
+DT=$(date +%F)	#DT is for dating file
+bkup="$fldr/$NM.$DT.tar.gz" #set varable to use
+DUS=$(du -hs $bkup | awk '{print $1}' )	#disk usage, size of tar
+SZ=$(expr "$DUS" / 1024 + 1) #variable for output of size
+LG=$"/var/log/$NM.log"
+#===========End declorations===========
+
+touch $LG
+    if [ -d "$fldr" ]; then
+	if [ "root" = "$WHO" ]; then
+		echo "$DT" >> $LG
+		echo "Root logged in." >> $LG
+		echo "Removing old backup files in $NM directory." >> $LG
+		rm -f $fldr/$NM* >> $LG
+        	echo "Done with removal." >> $LG
+		sleep 1
+		tar -cpPvzf $bkup $dirs  >> $LG #Taring backup dirs into one file.
+		clear
+		echo "Size of TAR is $DUS " >> $LG
+		echo " " >> $LG
+		echo "=============END OF BACKUP=================" >> $LG
+		echo " " >> $LG
+		exit 1
+	else
+		echo "Error: You must be root."
+		echo "Please login as root..."
+	exit 1
+	fi
+    else 
+	echo "Error getting to $fldr directory. Please correct."
+	exit 1
+    fi

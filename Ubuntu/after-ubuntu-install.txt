@@ -1,0 +1,10 @@
+After Ubuntu install
+
+sudo apt update && sudo apt upgrade
+sudo apt install ubuntu-restricted-extras
+--install Chrome, Leafpad, VLC
+sudo apt install gnome-tweak-tool
+
+Configure KB shortcuts
+--super+e.... etc.
+

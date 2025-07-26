@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "gicalucejo@gmail.com",
+                "Name": "jomada"
+            }
+        ],
+        "Id": "MoeDark-DarkSouls",
+        "License": "CC-BY-SA-4.0",
+        "Version": "1.2",
+        "Name": "MoeDark DarkSouls",
+         "Name[x-test]": "xxMoeDark DarkSoulsxx"
+    }
+}

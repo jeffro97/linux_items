@@ -1,0 +1,91 @@
+Tweaks:
+===GRUB UPDATES===
+sudo nano /etc/default/grub 
+---remove quiet (if there) 
+    GRUB_CMDLINE_LINUX_DEFAULT="quiet...."
+    # Uncomment to disable graphical terminal
+    GRUB_TERMINAL_OUTPUT=console
+--change grub timeout to zero
+   sudo nano /etc/default/grub 
+   GRUB_TIMEOUT=0
+   
+   sudo update-grub
+
+===Create a new mirror list, more speed====
+sudo pacman -Syy
+sudo pacman -S reflector 
+OR
+sudo pacman-mirror -f 5
+
+===Update System===
+sudo pacman -Syyu  
+
+===Add keyboard shortcuts===
+--win-e - Gnome, Keyboard shortcuts, Home Folder 
+--ctrl-alt-t - Add In ----  gnome-terminal --maximize
+
+===Install Screensavers===
+sudo pacman -S xscreensaver
+gedit ~/.config/autostart/screensaver.desktop
+
+[Desktop Entry]
+Name=Screensaver
+Type=Application
+Exec=xscreensaver -nosplash
+
+----if it does not work on reboot, copy file to
+---->  /etc/xdg/autostart/screensaver.desktop
+
+===Install Codecs and plugins===
+sudo pacman -Syy a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore gstreamer vlc flashplugin
+
+
+
+===Install Conky (System Monitor)===
+sudo pacman -S conky
+
+
+===Install gufw (firewall gui)===
+---open pamac and install gufw
+---If after install, does not open, need to edit /bin/gufw and add line for kdesu or gksudo python3 /usr/lib/python3.7/site-packages/gufw/gufw.py
+
+===Extend Spell Check===
+sudo pacman -S aspell-en libmythes mythes-en languagetool
+
+===Install MS Fonts===
+Open pamac and search ttf-ms-fonts 
+
+===Enable TRIM for SSD hard drives===
+sudo systemctl enable fstrim.timer (restart to take effect)
+
+
+===Remove orphan (unused) packages===
+In pamac, under Orphans. If some there, remove. 
+
+
+===Failed processes===
+After install, sometimes processes fail. 
+Check with:
+sudo systemctl --failed
+
+===Update system===
+sudo pacman -Syyu
+
+sudo pacman -S yay
+====================================Applications to install====================
+yay -S discord firefox chromium keepass spotify virtualbox code conky tree
+
+Discord
+Firefox
+Chromium
+htop
+visual studio code  (code)
+keepass and extensions
+---Gdrive sync
+---KeepassHTTP
+Spotify
+Weather widget
+monitoring app/widget
+vitrual box
+LibreOffice
+tree  -- CLI version to see tree

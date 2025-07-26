@@ -1,0 +1,127 @@
+#################################################################											    #
+#		Jeff Avveduti					 		    #
+#					  						    #
+#	Path = /home/jeff/programming/scripts/partbkup-tarburn	 #
+#								 			    #
+#	This is a simple script to backup a directory,		    #
+#	split it into 700mb files, then burn it to CD-Rs. 	    #
+#	It will prompt you for the next CD-R and give you a 	    #
+#	label for the CD including the current date.		    #
+#								    			    #
+##################################################################
+
+
+#! /bin/bash
+WHO=$(whoami)
+clear			  #Keeping it nice and clean
+if [ "root" = "$WHO" ]; then   #Have to be root to run
+	echo "Sweet, you are logged in as root."
+	DT=$(date +%F)		  #DT is for dating file
+	echo "Removing old backup files."
+	mkdir /backup
+	mkdir /backup/split
+	rm -f /backup/bkup*
+          rm -f /backup/split/bk
+	echo "Done with remove."
+	sleep 1
+	tar -cpPvzf /backup/bkup.$DT.tar.gz /home/jeff  #Taring backup dirs into one file.
+	DUS=$(du -s /backup/bkup.$DT.tar.gz | awk '{print $1}' )	
+	SZ=$(expr "$DUS" / 1024 + 1)
+#	clear
+	echo "Size of TAR is $SZ megabytes"
+	echo "Taring done... doing chmod."
+	sleep 2
+	chmod 755 /backup/bkup.$DT.tar.gz  #giving permissions to root for splitting
+	echo "Chmod done."
+	sleep 1
+	if [ "$SZ" -gt "700" ]; then 
+		echo "Splitting TAR into 700M files."
+		split -b 700m -a 1 /backup/bkup.$DT.tar.gz /backup/split/bkup-$DT.tar.gz.part  #splitting files
+		chmod 755 /backup/split/*    #giving root full permissions.
+		echo "Splitting TAR file is done."
+		rm -f bkup.$DT.tar.gz #after split, no need for orginal tar.
+		CNT=$(ls /backup/split | wc -l | awk '{print $1}' ) #count number of files to use in loop
+								    #the awk is to get rid of the space in front
+								    #of the 1.
+		echo "There is -$CNT- file(s) in the directory. You will need -$CNT- CD(s)." 
+		for ((i=1;i<=CNT;i++))  #making loop to burn each of the split files to CD-R
+		do	
+			echo "Insert CD $i. Enter to continue."
+			read ENTER
+			case "$i" in   #Case statement for upto 6cds
+			   [1] ) mkisofs -o /backup/backup-prtA.iso -J -r -v -V backup.$DT-partA /backup/split/bkup*parta
+			 	 cdrecord -v -eject speed=8 dev=0,0,0 /backup/backup-prtA.iso
+				 clear
+			   	 echo "Label Cd 'Backup $DT part A' "
+				 echo "Press Enter to continue."
+				 read ENTER
+				 rm -f /backup/backup-prtA.iso
+				 rm -f /backup/split/bkup*parta;;
+			   [2] ) mkisofs -o /backup/backup-prtB.iso -J -r -v -V backup.$DT-partB /backup/split/bkup*partb
+			 	 cdrecord -v -eject speed=8 dev=0,0,0 /backup/backup-prtB.iso
+				 clear
+			   	 echo "Label Cd 'Backup $DT part B' "
+				 echo "Press Enter to continue."
+				 read ENTER
+				 rm -f /backup/backup-prtB.iso
+				 rm -f /backup/split/bkup*partb;;
+			   [3] ) mkisofs -o /backup/backup-prtC.iso -J -r -v -V backup.$DT-partC /backup/split/bkup*partc
+			 	 cdrecord -v -eject speed=8 dev=0,0,0 /backup/backup-prtC.iso
+				 clear
+			   	 echo "Label Cd 'Backup $DT part C' "
+				 echo "Press Enter to continue."
+				 read ENTER
+				 rm -f /backup/backup-prtC.iso
+				 rm -f /backup/split/bkup*partc;;
+			   [4] ) mkisofs -o /backup/backup-prtD.iso -J -r -v -V backup.$DT-partD /backup/split/bkup*partd
+			 	 cdrecord -v -eject speed=8 dev=0,0,0 /backup/backup-prtD.iso
+				 clear
+			   	 echo "Label Cd 'Backup $DT part D' "
+				 echo "Press Enter to continue."
+				 read ENTER
+				 rm -f /backup/backup-prtD.iso
+				 rm -f /backup/split/bkup*partd;;
+			   [5] ) mkisofs -o /backup/backup-prtE.iso -J -r -v -V backup.$DT-partE /backup/split/bkup*parte
+			 	 cdrecord -v -eject speed=8 dev=0,0,0 /backup/backup-prtE.iso
+				 clear
+			   	 echo "Label Cd 'Backup $DT part E' "
+				 echo "Press Enter to continue."
+				 read ENTER
+				 rm -f /backup/backup-prtE.iso
+				 rm -f /backup/split/bkup*parte;;
+			   [6] ) mkisofs -o /backup/backup-prtF.iso -J -r -v -V backup.$DT-partF /backup/split/bkup*partf
+			 	 cdrecord -v -eject speed=8 dev=0,0,0 /backup/backup-prtF.iso
+				 clear
+			   	 echo "Label Cd 'Backup $DT part F' "
+				 echo "Press Enter to continue."
+				 read ENTER
+				 rm -f /backup/backup-prtF.iso
+				 rm -f /backup/split/bkup*partf;;
+			esac
+		done
+		echo "Done with burning..."
+		echo "Exiting program"
+		sleep 3
+		exit 0
+	elif [ "$SZ" -lt "700" ]; then #If it is only one file and less that 700mb, put on 1 CD-R
+		echo "The file is less than 700M, burning to 1 CD."
+		echo "Press Enter to continue."
+		read ENTER
+		mkisofs -o backup.$DT.iso -J -r -v -V backup.$DT /backup/bkup.$DT.tar.gz 
+		cdrecord -v -eject speed=8 dev=1,0,0 backup.$DT.iso
+		echo "Burning done." 
+		echo "Label CD with 'Backup on $DT' "
+		sleep 5
+		echo "Done with burning..."
+		echo "Exiting program"
+		sleep 2
+		exit 0
+	else
+		echo "Error: There is no files in directory. Check other processes."
+		exit 1			#The catch all error statement.
+	fi
+else
+	echo "Error: You must be root."
+	echo "Please login as root..."
+	exit 1
+fi

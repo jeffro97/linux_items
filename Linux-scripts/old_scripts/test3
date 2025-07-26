@@ -1,0 +1,5 @@
+#! /bin/bash
+DISK=$(du -hsD "$HOME/downloads");
+P=$(pwd);
+echo "Downloads is $DISK size."
+echo "P is $P."

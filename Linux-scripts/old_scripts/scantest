@@ -1,0 +1,4 @@
+#! /bin/bash
+SCAN=$(cdrecord -scanbus)
+echo "$SCAN"
+read enter

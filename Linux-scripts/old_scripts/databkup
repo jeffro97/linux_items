@@ -1,0 +1,39 @@
+#! /bin/bash
+WHO=$(whoami)
+clear
+cd /
+DATA="/mnt/data"
+BKUP="/mnt/backup"
+DT=$(date)		  #DT is for dating file
+LG=$"/var/log/databkup.log"
+touch $LG
+if [ "root" = "$WHO" ]; then
+	if [ -d "$DATA" ]; then
+	   echo "$DT" >> $LG
+	   echo "     Data is mounted." >> $LG
+	else
+	   echo "$DT" >> $LG
+ 	   echo "Error: Data is not mounted. Stopping backup." >> $LG
+	   exit 1
+	fi
+	
+	if [ -d "$BKUP" ]; then
+	   echo "$DT" >> $LG	
+	   echo "     Backup is mounted." >> $LG
+	else
+	   echo "$DT" >> $LG
+ 	   echo "Error: Backup is not mounted. Stopping backup." >> $LG
+	   exit 1
+	fi
+#Now have checked for both drives to be mounted. Starting backup.
+     echo "$DT" >> $LG
+     echo "**Mirrordir starting..." >> $LG
+     mirrordir --verbose /mnt/data /mnt/backup >> $LG
+     echo "Mirrordir is complete" >> $LG
+     echo "$DT" >> $LG
+     exit 1
+else
+	echo "$DT" >> $LG
+	echo "Error: Mirrordir was not able to complete. See error log." >> $LG
+	exit 1
+fi

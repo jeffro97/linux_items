@@ -1,0 +1,28 @@
+#! /bin/bash
+# This is a simple script to do selected directory
+# backup using Mondo Rescue.
+# The backup will be burned to a 700mb CD-R
+WHO=$(whoami)
+echo "You are logged in as $WHO."
+echo
+if [ "root" = "$WHO" ]; then
+	echo "Sweet, you are logged in as root."
+	echo "This is to do selected directory backups on /home & /etc to 700mb CD-Rs. "
+	echo "This may take several hours."
+	echo 
+	echo "Do you wish to continue? (y/n) : " 
+		#This is just prompting the user to make 
+		#sure this is what they want to do.				
+	read ANSWER
+	if [ "$ANSWER" = "y" ]; then
+		mondoarchive -Oc 8 -I "/home /etc" -s 700mb -g -9
+	else
+		echo "Error: You must choose lower case 'y' or 'n'."
+		echo "Try again."
+	    	exit 0
+	fi
+else
+	echo "Error: You must be root."
+	echo "Please login as root..."
+	exit 1
+fi

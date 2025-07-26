@@ -1,0 +1,37 @@
+#! /bin/bash
+#standard backup of system
+WHO=$(whoami)
+NM="bkup_stnd"
+dirs="/etc /boot /home/jeff"
+fldr="/mnt/data/backups/$NM"
+LG="/var/log/$NM.log"
+
+touch $LG
+    if [ -d "$fldr" ]; then
+	if [ "root" = "$WHO" ]; then
+		DT=$(date +%F)	#DT is for dating file
+		echo "$DT" >> $LG
+		echo "Root logged in." >> $LG
+		echo "Removing old backup files in $NM directory." >> $LG
+		rm -f $fldr/$NM* >> $LG
+        	echo "Done with removal." >> $LG
+		sleep 1
+		bkup="$fldr/$NM.$DT.tar.gz" #set varable to use
+		tar -cpPvzf $bkup $dirs  >> $LG #Taring backup dirs into one file.
+		clear
+		DUS=$(du -hs $bkup | awk '{print $1}' )	#disk usage, size of tar
+		echo "Size of TAR is $DUS " >> $LG
+		date >> $LG
+		echo " " >> $LG
+		echo "=============END OF BACKUP=================" >> $LG
+		echo " " >> $LG
+		exit 1
+	else
+		echo "Error: You must be root."
+		echo "Please login as root..."
+	exit 1
+	fi
+    else 
+	echo "Error getting to $fldr directory. Please correct."
+	exit 1
+    fi
