@@ -1,0 +1,32 @@
+VGEXTEND - add space to partition
+///////////////////////////////////
+
+Add a new disk to root or another partition
+
+1.	Power off the BackBox server (Settings -> Maintenance -> Shutdown)
+2.	Add additional drive for root and power on the BackBox.
+3.	Login to the BackBox console or SSH, using root account.
+4.	Run the command below to list all available hard drives:
+------ lsblk
+
+5.	Run the command below to create the physical volume:
+---- pvcreate /dev/sdb  <--- will depend on lsblk output of course
+
+6.	Display the information and attributes about Volume Groups (VGs) within the Logical Volume Manager (LVM) configuration.
+---- vgs
+
+7.	Run the command below to Add the physical volume to the volume group:
+----- vgextend vg_root /dev/sdb
+
+8. Display the information about logical volumes (LVs) within the volume group:
+----- lvs
+
+9. Extend the logical volume to the total amount of Free space: (In this example 10GB)
+----- lvextend -l +100%FREE /dev/vg_root/lv_root
+
+10. Finally we need to resize the file system:
+---- xfs_growfs /dev/vg_root/lv_root
+
+Review new disk space
+df -h
+lsblk <--- preferred. 

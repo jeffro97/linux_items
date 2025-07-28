@@ -1,0 +1,100 @@
+/////////////////////////////////////////////////// GREP \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+clish -c "show configuration" | grep log-remote-address | awk '{print $4}'
+
+========================================================
+tmsh list sys snmp allowed-addresses |  grep -o -P '(?<=allowed-addresses { ).*(?=})'
+	• -P, --perl-regexp
+	• -o, --only-matching
+--- without grep
+	[voyence@pzdci5800inth01:Active:Standalone] ~ # tmsh list sys snmp allowed-addresses                                                 
+	sys snmp {
+	    allowed-addresses { 10.26.31.0/255.255.255.0 10.26.32.0/255.255.254.0 10.64.64.253 }
+	}
+	
+--- With grep addition
+	10.26.31.0/255.255.255.0 10.26.32.0/255.255.254.0 10.64.64.253 
+==========================================================
+
+
+
+clish -c "show configuration" | grep "expert-password-hash" | awk '{print $3}'
+
+
+grep -vFx -f  file strings_to_compare
+-v, --invert-match: Invert the sense of matching, to select non-matching lines.
+-F, --fixed-strings: Interpret PATTERNS as fixed strings, not regular expressions.
+-x, --line-regexp: Select only those matches that exactly match the whole line
+-f file Takes patterns from file, one per line
+
+grep -aE "aaa-server (.*) \(Trusted\) host (?!10.237.76.40|10.204.147.40)" 00000-5500-2-z-h.zzz.na.mgmt.medcity.net_running-config.txt
+
+
+
+
+/////////////////////////////////////////////////// SED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+sed -i 's/SEARCH_REGEX/REPLACEMENT/g' INPUTFILE
+
+Basic replace/remove: sed "s/\"//g" 
+replace " (double quotes) with nothing. 
+
+grep -A 6 communities 99926-five-8-q-h.xdc.na.mgmt.medcity.net_bigip_base.conf | grep Common | sed 's/{//g' | sed 's:/Common/::g'
+=======> Output 
+iB7PEjmkeUzRT_1 
+ivgH6SUfdJbaT_1 
+====== Instead of:
+communities {
+        /Common/iB7PEjmkeUzRT_1 {
+            community-name B7PEjmkeUzRT
+        }
+        /Common/ivgH6SUfdJbaT_1 {
+            access rw
+            community-name vgH6SUfdJbaT
+============================================
+
+clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\|algosec\|chkptmonitor\|admin\|ciscoworks\|_lldpd\|airwave\|cp_ender\|corpsvcpatrolexp\|monitor//'
+
+nslookup %%HOST%% | awk 'NR==4' | awk -F'=' '{print $2}' | awk '{sub(/\.$/, ""); print}' | sed 's/^[[:space:]]//;s/[[:space:]]*$//'
+
+clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\|algosec\|chkptmonitor\|admin\|ciscoworks\|_lldpd\|airwave\|cp_ender\|corpsvcpatrolexp\|monitor//'
+
+sed -r 's/^banner login //' | sed -n "/You /, /4357/p"
+
+sed -n "/line vty /, /\!/p" 99926-3850-4-q-h.xdc.na.mgmt.medcity.net_running-config.txt
+
+sed -n "/ banner-text /,/8422./p" /data/tmp/%%DEVICE_NAME%%_bigip_base.conf | sed 's/ banner-text "//' | sed -n "/You /, /8422/p"  | sed "s/\"//g"
+
+
+
+/////////////////////////////////////////////////// AWK \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+nslookup %%HOST%% | awk '{print substr($4, 1, length($4)-1)}'
+
+tmsh list sys management-route default one-line | awk '{print $8}'
+
+nslookup %%HOST%% | awk 'NR==4' | awk -F'=' '{print $2}' | awk '{sub(/\.$/, ""); print}' | sed 's/^[[:space:]]//;s/[[:space:]]*$//'
+
+cat %%CP_CONFIG_FILE%% | awk '/DNS-STANDARD/{if (flag) exit; flag=1; next} flag'
+
+awk 'NR==FNR {a[$0]; next} {if ($0 in a) print $0 >> "match.txt"; else print $0 >> "unmatch.txt"}'  dns_config.txt cp_standard.txt
+
+nslookup %%HOST%% | awk 'NR==4' | awk -F'=' '{print $2}' | awk '{sub(/\.$/, ""); print}'
+
+echo "%%HOSTNAME%%" | awk -F'\\.mgmt.medcity.net' '{split($1, a, "."); print a[length(a)]}'
+
+awk 'NR==FNR {a[$0]; next} {if ($0 in a) print $0 >> "match.txt"; else print $0 >> "unmatch.txt"}'  local_custom_snmptraps.txt %%snmpcompare%%
+
+echo %%f5ntp%% | awk '{ print $1 }'
+
+cat sysinfo | grep "Product Name" | awk '{ print substr($0, index($0,$3)) }'
+
+
+
+
+/////////////////////////////////////////////////// AWK \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+if (($(echo "%%r1%% < %%r2%%" | bc -l))) && (($(echo "%%r1%% < %%r3%%" | bc -l) )); then echo %%site.xrdcsyslog%%; elif (($(echo "%%r2%% < %%r1%%" | bc -l))) && (($(echo "%%r2%% < %%r3%%" | bc -l) )); then echo %%site.frdcsyslog%%; else echo %%site.trdcsyslog%%; fi
+
+ping -c 4 %%site.trdcsyslog%% | tail -1 | awk '{print $4}' | cut -d '/' -f2
+
+MATCH=0; for a in %%subnetlist%%; do if [ $a = "10.26.31.0/255.255.255.0" ] ||  [ $a = "10.26.32.0/255.255.254.0" ]; then let MATCH++; fi; done; echo "$MATCH"
+
+echo "D1 is greater than D2. Will use FRDC IP %%FRDCRadius%% as primary"; clish -c "add aaa radius-servers priority 1 host %%FRDCRadius%% port 1812 secret fYiqjiaw timeout 5"; clish -c "add aaa radius-servers priority 2 host %%XRDCRadius%% port 1812 secret fYiqjiaw timeout 5" -s
