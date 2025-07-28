@@ -1,0 +1,9 @@
+history format --> bashrc
+
+First run: 
+export HISTTIMEFORMAT="%F %r "
+
+Then add to .bashrc
+echo 'export HISTTIMEFORMAT="%F %r "' >> ~/.bashrc
+
+echo 'export HISTTIMEFORMAT="%F %r "' >> ~/.bash_profile
