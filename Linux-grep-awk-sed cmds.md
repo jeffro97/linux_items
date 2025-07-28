@@ -29,6 +29,8 @@ nslookup %%HOST%% | awk 'NR==4' | awk -F'=' '{print $2}' | awk '{sub(/\\.$/, "")
 
 clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\\|algosec\\|chkptmonitor\\|admin\\|ciscoworks\\|\_lldpd\\|airwave\\|cp\_ender\\|corpsvcpatrolexp\\|monitor//'
 
+sed -i '1d'  servergrouptoremove.txt //// remove first line from file. 
+
 # AWK
 
 nslookup %%HOST%% | awk '{print substr($4, 1, length($4)-1)}'
