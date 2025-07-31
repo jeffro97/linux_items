@@ -1,4 +1,7 @@
 # GREP
+        grep [OPTION...] PATTERNS [FILE...]
+        rep [OPTION...] -e PATTERNS ... [FILE...]
+        grep [OPTION...] -f PATTERN_FILE ... [FILE...]
 
 clish -c "show configuration" | grep log-remote-address | awk '{print $4}'
 
@@ -65,6 +68,18 @@ echo %%f5ntp%% | awk '{ print $1 }'
 
 cat sysinfo | grep "Product Name" | awk '{ print substr($0, index($0,$3)) }'
 ```
+
+# COMM
+```
+comm -3 <(cut -d ' '  -f4 test_acl53.txt | sort) <(cut -d ' '  -f4 /data/jail/data/file_repository/acl53.txt | sort)
+```
+* Using comm to compare 2 files.
+* Use cut with delimeter of a space to only review fourth field in each file
+* sorting output so comm and compare
+* output is the difference between
+* -3 is suppress lines that appear in both files
+
+
 # MISC
 ```
 if (($(echo "%%r1%% < %%r2%%" | bc -l))) && (($(echo "%%r1%% < %%r3%%" | bc -l) )); then echo %%site.xrdcsyslog%%; elif (($(echo "%%r2%% < %%r1%%" | bc -l))) && (($(echo "%%r2%% < %%r3%%" | bc -l) )); then echo %%site.frdcsyslog%%; else echo %%site.trdcsyslog%%; fi
