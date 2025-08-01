@@ -46,6 +46,9 @@ clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\\|algosec\\|chk
 
 sed -i '1d'  servergrouptoremove.txt //// remove first line from file.
 
+sed -e 's/^[[:space:]]*//'   /////// removes leading spaces from string.
+sed -e 's/^\[\[:space:\]\]//;s/\[\[:space:\]\]\*$//'   ////// Remove both leading and trailing spaces.
+
 # AWK
 
 nslookup %%HOST%% | awk '{print substr($4, 1, length($4)-1)}'
