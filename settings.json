@@ -1,0 +1,164 @@
+{
+  "autoDocstring.docstringFormat": "sphinx",
+  "python.testing.pytestArgs": [
+    "tests",
+    "--no-cov"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+    "flake8.args": [
+      "--max-line-length = 100",
+      "--ignore=E501",
+      "--docstring-convention=pep257"
+    ],
+  "black-formatter.args": [
+    "--preview",
+    "--line-length=100"
+  ],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+      100
+    ],
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "files.autoSave": "onFocusChange",
+  "editor.fontVariations": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modifications",
+  "editor.fontLigatures": true,
+  "editor.fontFamily": "Lucida Sans Typewriter, Consolas, 'Courier New', monospace",
+  "trailing-spaces.trimOnSave": true,
+  "terminal.integrated.scrollback": 10000,
+  "workbench.startupEditor": "none",
+  "workbench.sideBar.location": "right",
+  "terminal.integrated.fontWeight": "normal",
+  "terminal.integrated.fontFamily": "Lucida Sans Typewriter, Consolas, 'Courier New', monospace",
+    "workbench.colorTheme": "Monokai Dark Soda",
+      "workbench.colorCustomizations": {
+        "editor.background": "#131313",
+        "editorGutter.background": "#082c50",
+        "activityBar.background": "#0f244e",
+        "sideBarSectionHeader.background": "#004119",
+        "sideBar.background": "#000c30",
+        "terminal.foreground": "#889102",
+        "terminal.ansiBrightBlue": "#00c421",
+        "terminal.ansiBrightGreen": "#03970f",
+        "terminal.background": "#000016",
+        "editor.selectionBackground":"#da2c0065",
+        "editor.findMatchBorder": "#ff0e0e7a",
+        "editor.lineHighlightBackground":"#fffb0031",
+        "editor.findMatchHighlightBackground":"#00ffff65",
+      },
+  "editor.tokenColorCustomizations": {
+    // "functions": "#49ff46",
+    "strings": "#8ad48a",
+    "textMateRules": [
+      {
+        "scope": ["meta.function-call",],
+        "settings": {
+          "foreground": "#6daef8",
+        }
+      },
+    ]
+  },
+  "terminal.integrated.fontSize": 15,
+  "editor.minimap.enabled": false,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.autoFormatStrings": true,
+  "python.analysis.inlayHints.pytestParameters": true,
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.completeFunctionParens": true,
+  "cSpell.userWords": [
+    "typer"
+  ],
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "terminal.integrated.env.linux": {
+    "PYTHONPATH": "${workspaceFolder}"
+  },
+  "terminal.integrated.env.windows": {
+    "PYTHONPATH": "${workspaceFolder}"
+  },
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "todohighlight.enableDiagnostics": true,
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "#fff",
+      "backgroundColor": "#ffbd2a",
+      "overviewRulerColor": "rgba(255,189,42,0.8)"
+    },
+    {
+      "text": "todo:",
+      "color": "#fff",
+      "backgroundColor": "#ffbd2a",
+      "overviewRulerColor": "rgba(255,189,42,0.8)"
+    },
+    {
+      "text": "FIXME:",
+      "color": "#fff",
+      "backgroundColor": "#f06292",
+      "overviewRulerColor": "rgba(240,98,146,0.8)"
+    }
+  ],
+  "git.openRepositoryInParentFolders": "never",
+  "vscode_custom_css.imports": [
+    "file:///C:/Users/TFN9845/OneDrive - HCA Healthcare/Documents/VSCode/custom_icon_size.css"
+  ],
+  "editor.rulers": [
+    100
+  ],
+  "[powershell]": {
+    "editor.rulers": [
+      100
+    ]
+  },
+  "[markdown]": {
+    "editor.rulers": [
+      100
+    ]
+  },
+  "[restructuredtext]": {
+    "editor.rulers": [
+      100
+    ]
+  },
+  "[yaml]": {
+    "editor.rulers": [
+      100
+    ]
+  },
+  "[dockerfile]": {
+    "editor.rulers": [
+      100
+    ]
+  },
+  "[shellscript]": {
+    "editor.rulers": [
+      100
+    ]
+  },
+  "remote.WSL.debug": true,
+  "python.pydev.formatter": "black",
+  "python.pydev.lint.flake8.use": true,
+  "editor.defaultFormatter": "ms-python.black-formatter",
+  "pylint.lintOnChange": true,
+  "debugpy.showPythonInlineValues": true,
+  "autoDocstring.includeExtendedSummary": true,
+  "autoDocstring.includeName": true,
+  "workbench.iconTheme": "vscode-jetbrains-icon-theme",
+  "workbench.colorTheme": "Monokai",
+  "html.completion.attributeDefaultValue": "singlequotes",
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "python.analysis.include": [
+    "./venv"
+  ],
+  "python.autoComplete.extraPaths": [
+    "./venv"
+  ],
+}

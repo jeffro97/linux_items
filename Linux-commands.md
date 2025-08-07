@@ -35,6 +35,11 @@ grep -vFx -f test_acl53.txt /data/jail/data/file_repository/acl53.txt
 ** Will display everything that does not match (compare first to second.)
 
 # SED
+```
+sed -i '1d'  missingupdated.txt
+```
+* -i is to edit file in place
+* '1d' is delete line 1
 
 clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\\|algosec\\|chkptmonitor\\|admin\\|ciscoworks\\|\_lldpd\\|airwave\\|cp\_ender\\|corpsvcpatrolexp\\|monitor//'
 
