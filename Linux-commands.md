@@ -36,10 +36,25 @@ grep -vFx -f test_acl53.txt /data/jail/data/file_repository/acl53.txt
 
 # SED
 ```
+sed -i '1d'  servergrouptoremove.txt
 sed -i '1d'  missingupdated.txt
 ```
 * -i is to edit file in place
 * '1d' is delete line 1
+
+```
+sed '$d'
+```
+* - remove last line
+* - $   Match the last line.
+* - d   Delete pattern space.  Start next cycle.
+sed -n -e '/access-list standard 55/,/[^\s+\\]/p'  07848-9800-1-l-h.csc.na.mgmt.medcity.net_running-config.txt | sed '$d'
+
+```
+sed -ne '/access-list standard 12/,/^\w/p' 07848-9800-1-l-h.csc.na.mgmt.medcity.net_running-config.txt | sed '1d; $d'
+```
+* find string that starts with 'access-list standard 12' and ends with a word (^\w).
+* Then removed first and last line
 
 clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\\|algosec\\|chkptmonitor\\|admin\\|ciscoworks\\|\_lldpd\\|airwave\\|cp\_ender\\|corpsvcpatrolexp\\|monitor//'
 
@@ -49,7 +64,6 @@ nslookup %%HOST%% | awk 'NR==4' | awk -F'=' '{print $2}' | awk '{sub(/\\.$/, "")
 
 clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\\|algosec\\|chkptmonitor\\|admin\\|ciscoworks\\|\_lldpd\\|airwave\\|cp\_ender\\|corpsvcpatrolexp\\|monitor//'
 
-sed -i '1d'  servergrouptoremove.txt //// remove first line from file.
 
 sed -e 's/^[[:space:]]*//'   /////// removes leading spaces from string.
 sed -e 's/^\[\[:space:\]\]//;s/\[\[:space:\]\]\*$//'   ////// Remove both leading and trailing spaces.
