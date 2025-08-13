@@ -91,6 +91,10 @@ echo %%f5ntp%% | awk '{ print $1 }'
 cat sysinfo | grep "Product Name" | awk '{ print substr($0, index($0,$3)) }'
 ```
 
+awk '/^interface /,/!/ { block = block $0 RS } /!/ { if (block ~ /ip address [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ && block !~ /shutdown/) print block; block = "" }' 07848-9800-1-l-h.csc.na.mgmt.medcity.net_running-config.txt | sed -n 1p | awk '{print $2}'
+* output is management interface of device.
+
+
 # COMM
 ```
 comm -3 <(cut -d ' '  -f4 test_acl53.txt | sort) <(cut -d ' '  -f4 /data/jail/data/file_repository/acl53.txt | sort)
