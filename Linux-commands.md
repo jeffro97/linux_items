@@ -1,4 +1,5 @@
-# GREP
+# ///////////////////// GREP /////////////////////
+
         grep [OPTION...] PATTERNS [FILE...]
         rep [OPTION...] -e PATTERNS ... [FILE...]
         grep [OPTION...] -f PATTERN_FILE ... [FILE...]
@@ -34,7 +35,9 @@ grep -vFx -f test_acl53.txt /data/jail/data/file_repository/acl53.txt
 * -f -- file - Obtain  patterns  from  FILE,  one  per line.
 ** Will display everything that does not match (compare first to second.)
 
-# SED
+grep -A 5 -E '^(interface )' 07848-9800-1-l-h.csc.na.mgmt.medcity.net_running-config.txt | grep -B 3 "10.114.16.5" | grep 'interface' | awk '{print $2}'
+
+# ///////////////////// SED /////////////////////
 ```
 sed -i '1d'  servergrouptoremove.txt
 sed -i '1d'  missingupdated.txt
@@ -56,6 +59,19 @@ sed -ne '/access-list standard 12/,/^\w/p' 07848-9800-1-l-h.csc.na.mgmt.medcity.
 * find string that starts with 'access-list standard 12' and ends with a word (^\w).
 * Then removed first and last line
 
+```
+sed -ne '/^interface /,/\!/p' 07848-9800-1-l-h.csc.na.mgmt.medcity.net_running-config.txt | tac | sed -ne '/ip address 10.114.16.5/,/^interface /p' | grep 'interface' | awk '{print $2}'
+```
+* tac command is opposite of cat. concatenate and print files in reverse
+
+
+```
+sed -ne '/access-list standard 53/,/^\w/p'  99926-3850-4-q-h.xdc.na.mgmt.medcity.net_running-config.txt | sed '$d; 1d; s/^[ \t]*//'
+```
+* The sed '$d; 1d; s/^[ \t]*//'  on the end will delete the last line, the first line, and space on front of line.
+
+
+
 clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\\|algosec\\|chkptmonitor\\|admin\\|ciscoworks\\|\_lldpd\\|airwave\\|cp\_ender\\|corpsvcpatrolexp\\|monitor//'
 
 ```
@@ -64,11 +80,12 @@ nslookup %%HOST%% | awk 'NR==4' | awk -F'=' '{print $2}' | awk '{sub(/\\.$/, "")
 
 clish -c "show users" | awk 'NR > 1 {print $1}' | sed 's/voyence\\|algosec\\|chkptmonitor\\|admin\\|ciscoworks\\|\_lldpd\\|airwave\\|cp\_ender\\|corpsvcpatrolexp\\|monitor//'
 
-
+```
 sed -e 's/^[[:space:]]*//'   /////// removes leading spaces from string.
 sed -e 's/^\[\[:space:\]\]//;s/\[\[:space:\]\]\*$//'   ////// Remove both leading and trailing spaces.
+```
 
-# AWK
+# ///////////////////// AWK /////////////////////
 
 nslookup %%HOST%% | awk '{print substr($4, 1, length($4)-1)}'
 
@@ -89,13 +106,13 @@ awk 'NR==FNR {a\[$0\]; next} {if ($0 in a) print $0 >> "match.txt"; else print $
 echo %%f5ntp%% | awk '{ print $1 }'
 
 cat sysinfo | grep "Product Name" | awk '{ print substr($0, index($0,$3)) }'
-```
 
 awk '/^interface /,/!/ { block = block $0 RS } /!/ { if (block ~ /ip address [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ && block !~ /shutdown/) print block; block = "" }' 07848-9800-1-l-h.csc.na.mgmt.medcity.net_running-config.txt | sed -n 1p | awk '{print $2}'
-* output is management interface of device.
+//// output is management interface of device.
+```
 
 
-# COMM
+# ///////////////////// COMM /////////////////////
 ```
 comm -3 <(cut -d ' '  -f4 test_acl53.txt | sort) <(cut -d ' '  -f4 /data/jail/data/file_repository/acl53.txt | sort)
 ```
@@ -106,7 +123,7 @@ comm -3 <(cut -d ' '  -f4 test_acl53.txt | sort) <(cut -d ' '  -f4 /data/jail/da
 * -3 is suppress lines that appear in both files
 
 
-# MISC
+# ///////////////////// MISC /////////////////////
 ```
 if (($(echo "%%r1%% < %%r2%%" | bc -l))) && (($(echo "%%r1%% < %%r3%%" | bc -l) )); then echo %%site.xrdcsyslog%%; elif (($(echo "%%r2%% < %%r1%%" | bc -l))) && (($(echo "%%r2%% < %%r3%%" | bc -l) )); then echo %%site.frdcsyslog%%; else echo %%site.trdcsyslog%%; fi
 
