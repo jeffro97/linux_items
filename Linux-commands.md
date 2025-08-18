@@ -3,11 +3,15 @@
         grep [OPTION...] PATTERNS [FILE...]
         rep [OPTION...] -e PATTERNS ... [FILE...]
         grep [OPTION...] -f PATTERN_FILE ... [FILE...]
-
-clish -c "show configuration" | grep log-remote-address | awk '{print $4}'
-
 \========================================================
+
+
+```bash
 tmsh list sys snmp allowed-addresses | grep -o -P '(?<=allowed-addresses { ).\*(?=})'
+```
+
+
+
 • -P, --perl-regexp
 • -o, --only-matching
 
