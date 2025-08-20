@@ -42,6 +42,17 @@ grep -vFx -f test_acl53.txt /data/jail/data/file_repository/acl53.txt
 grep -A 5 -E '^(interface )' 07848-9800-1-l-h.csc.na.mgmt.medcity.net_running-config.txt | grep -B 3 "10.114.16.5" | grep 'interface' | awk '{print $2}'
 
 # ///////////////////// SED /////////////////////
+
+* Search and Replace
+```
+sed -i 's/SEARCH_REGEX/REPLACEMENT/g' INPUTFILE
+```
+
+* Remove spaces/empty lines at end of file.
+```
+sed 's/^[ \t]*//'
+```
+
 ```
 sed -i '1d'  servergrouptoremove.txt
 sed -i '1d'  missingupdated.txt
